@@ -51,10 +51,26 @@ class _TaskState extends State<TaskRow> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.task.title),
-                    Switch(
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          widget.task.title,
+                          softWrap: true,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              color: widget.task.done
+                                  ? Colors.black38
+                                  : Colors.black,
+                              decoration: widget.task.done
+                                  ? TextDecoration.lineThrough
+                                  : null),
+                        ),
+                      ),
+                    ),
+                    Checkbox(
                       value: widget.task.done,
-                      onChanged: (bool value) => _toggleDone(),
+                      onChanged: (bool? value) => _toggleDone(),
                     )
                   ],
                 ))));
