@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CreateTaskModal extends StatefulWidget {
-  CreateTaskModal({super.key, required this.createTask});
+  const CreateTaskModal({super.key, required this.createTask});
 
-  void Function(String taskName) createTask;
+  final void Function(String taskName) createTask;
 
   @override
   State<CreateTaskModal> createState() => _CreateTaskModalState();

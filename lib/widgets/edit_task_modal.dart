@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:task_app/dao/task.dart';
 
 class EditTaskModal extends StatefulWidget {
-  EditTaskModal(
+  const EditTaskModal(
       {super.key,
       required this.editTask,
       required this.taskId,
       required this.deleteTask});
 
-  void Function(String taskId, Task newTask) editTask;
-  void Function(String taskId) deleteTask;
-  String taskId;
+  final void Function(String taskId, Task newTask) editTask;
+  final void Function(String taskId) deleteTask;
+  final String taskId;
 
   @override
   State<EditTaskModal> createState() => _EditTaskModalState();
