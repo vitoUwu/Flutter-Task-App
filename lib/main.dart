@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
 import 'package:task_app/screens/enter_username.dart';
@@ -19,12 +20,20 @@ class TaskApp extends StatefulWidget {
 class _TaskAppState extends State<TaskApp> {
   final LocalStorage _storage = LocalStorage("task_app");
 
+  ThemeData _buildTheme() {
+    var baseTheme =
+        ThemeData(primarySwatch: TWTwoColors.violet.asMaterialColor);
+
+    return baseTheme.copyWith(
+        textTheme: GoogleFonts.interTextTheme(baseTheme.textTheme));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Task App',
-      theme: ThemeData(primarySwatch: TWTwoColors.violet.asMaterialColor),
+      theme: _buildTheme(),
       home: FutureBuilder(
           future: _storage.ready,
           builder: (context, snapshot) {

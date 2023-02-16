@@ -48,7 +48,11 @@ class _HomeState extends State<Home> {
   }
 
   void saveTasksToFile() {
-    debugPrint("_tasks");
+    debugPrint("saving tasks");
+
+    // setState(() {
+    //   _tasks.sort((a, b) => a.done ? 1 : -1);
+    // });
 
     widget.storage
         .setItem(
@@ -67,6 +71,7 @@ class _HomeState extends State<Home> {
         color: Colors.white,
         child: SafeArea(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -92,6 +97,7 @@ class _HomeState extends State<Home> {
                 ],
               ),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Divider(
                     color: TWTwoColors.gray.shade300,
@@ -117,7 +123,9 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 4, horizontal: 12),
                             child: Text(
-                              _tasks.length.toString(),
+                              _tasks.every((task) => task.done)
+                                  ? "completed"
+                                  : "${_tasks.where((task) => task.done).length}/${_tasks.length.toString()}",
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -143,9 +151,7 @@ class _HomeState extends State<Home> {
                       debugPrint('fetching tasks...');
                       var items = widget.storage.getItem('tasks');
                       if (items == null) {
-                        return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [NoTasks()]);
+                        return const NoTasks();
                       }
 
                       debugPrint(inspect(items).toString());
@@ -163,15 +169,16 @@ class _HomeState extends State<Home> {
                     }
 
                     return Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: ListView(
-                                children: _tasks
-                                    .map((task) => TaskRow(
-                                        task: task,
-                                        editTask: editTask,
-                                        deleteTask: deleteTask))
-                                    .toList())));
+                      flex: 1,
+                      child: ListView(
+                          padding: const EdgeInsets.only(bottom: 76),
+                          children: _tasks
+                              .map((task) => TaskRow(
+                                  task: task,
+                                  editTask: editTask,
+                                  deleteTask: deleteTask))
+                              .toList()),
+                    );
                   }),
             ],
           ),

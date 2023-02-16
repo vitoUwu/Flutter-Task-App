@@ -43,7 +43,10 @@ class _TaskState extends State<TaskRow> {
                 taskId: widget.task.id),
           );
         },
-        onTap: () => debugPrint("tap detected"),
+        onTap: () {
+          debugPrint("Tap detected");
+          _toggleDone();
+        },
         child: ColoredBox(
             color: Colors.white,
             child: Padding(
@@ -51,21 +54,19 @@ class _TaskState extends State<TaskRow> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          widget.task.title,
-                          softWrap: true,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                              color: widget.task.done
-                                  ? Colors.black38
-                                  : Colors.black,
-                              decoration: widget.task.done
-                                  ? TextDecoration.lineThrough
-                                  : null),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        widget.task.title,
+                        softWrap: true,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            color: widget.task.done
+                                ? Colors.black38
+                                : Colors.black,
+                            decoration: widget.task.done
+                                ? TextDecoration.lineThrough
+                                : null),
                       ),
                     ),
                     Checkbox(
