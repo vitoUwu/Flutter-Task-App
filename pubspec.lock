@@ -264,6 +264,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  tailwind_colors:
+    dependency: "direct main"
+    description:
+      name: tailwind_colors
+      sha256: "5108d5332eca2e697aff8932739b7708dba3c8f356e471a5c986fd6538a2db99"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   term_glyph:
     dependency: transitive
     description:

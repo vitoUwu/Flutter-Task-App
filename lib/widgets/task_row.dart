@@ -47,13 +47,13 @@ class _TaskState extends State<TaskRow> {
         child: ColoredBox(
             color: Colors.white,
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(left: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           widget.task.title,
                           softWrap: true,

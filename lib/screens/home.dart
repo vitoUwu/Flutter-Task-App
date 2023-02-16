@@ -2,21 +2,25 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:task_app/widgets/task_row.dart';
+import 'package:tailwind_colors/tailwind_colors.dart';
 
 import '../dao/task.dart';
 import '../widgets/create_task_modal.dart';
+import '../widgets/loading.dart';
 import '../widgets/no_tasks.dart';
+import '../widgets/task_row.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.storage});
+
+  final LocalStorage storage;
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final LocalStorage _storage = LocalStorage('task_app');
+  // final LocalStorage _storage = LocalStorage('task_app');
   List<Task> _tasks = [];
   bool _initialized = false;
 
@@ -44,9 +48,9 @@ class _HomeState extends State<Home> {
   }
 
   void saveTasksToFile() {
-    debugPrint("saving tasks");
+    debugPrint("_tasks");
 
-    _storage
+    widget.storage
         .setItem(
       'tasks',
       _tasks.map((task) => task.toJsonEncodable()).toList(),
@@ -59,55 +63,120 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: _storage.ready,
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: ColoredBox(
+        color: Colors.white,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                            backgroundColor: TWTwoColors.gray.shade800,
+                            radius: 40),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(widget.storage.getItem("username"),
+                              style: TextStyle(
+                                  color: TWTwoColors.gray.shade800,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                children: [
+                  Divider(
+                    color: TWTwoColors.gray.shade300,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "My Tasks",
+                          style: TextStyle(
+                              color: TWTwoColors.gray.shade800,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(100)),
+                              color: TWTwoColors.violet.shade500),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 12),
+                            child: Text(
+                              _tasks.length.toString(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: TWTwoColors.gray.shade300,
+                  ),
+                ],
+              ),
+              FutureBuilder(
+                  future: widget.storage.ready,
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) {
+                      return const Loading();
+                    }
 
-            if (!_initialized) {
-              // debugPrint("clearing storage");
-              // storage.clear().then((value) => debugPrint("storage cleared"));
-              debugPrint('fetching tasks...');
-              var items = _storage.getItem('tasks');
-              if (items == null) {
-                return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [NoTasks()]);
-              }
+                    if (!_initialized) {
+                      debugPrint('fetching tasks...');
+                      var items = widget.storage.getItem('tasks');
+                      if (items == null) {
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [NoTasks()]);
+                      }
 
-              debugPrint(inspect(items).toString());
+                      debugPrint(inspect(items).toString());
 
-              _tasks = List<Task>.from(items.map((item) => Task(
-                  id: item['id'], title: item['title'], done: item['done'])));
+                      _tasks = List<Task>.from(items.map((item) => Task(
+                          id: item['id'],
+                          title: item['title'],
+                          done: item['done'])));
 
-              _initialized = true;
-            }
+                      _initialized = true;
+                    }
 
-            if (_tasks.isEmpty) {
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [NoTasks()]);
-            }
+                    if (_tasks.isEmpty) {
+                      return const NoTasks();
+                    }
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: ListView(
-                            children: _tasks
-                                .map((task) => TaskRow(
-                                    task: task,
-                                    editTask: editTask,
-                                    deleteTask: deleteTask))
-                                .toList())))
-              ],
-            );
-          }),
+                    return Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: ListView(
+                                children: _tasks
+                                    .map((task) => TaskRow(
+                                        task: task,
+                                        editTask: editTask,
+                                        deleteTask: deleteTask))
+                                    .toList())));
+                  }),
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
             context: context,
