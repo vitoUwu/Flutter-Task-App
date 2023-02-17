@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:tailwind_colors/tailwind_colors.dart';
+import 'package:task_app/data/database.dart';
 import 'package:task_app/screens/home.dart';
 
 class EnterUsername extends StatefulWidget {
-  const EnterUsername({super.key, required this.storage});
-
-  final LocalStorage storage;
+  const EnterUsername({super.key});
 
   @override
   State<EnterUsername> createState() => _EnterUsernameState();
@@ -86,14 +84,10 @@ class _EnterUsernameState extends State<EnterUsername> {
                               TWTwoColors.violet.shade300)
                           : null),
                   onPressed: () {
-                    widget.storage.setItem("username", _controller.text);
+                    Database().setUsername(_controller.text);
                     _controller.clear();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Home(
-                                  storage: widget.storage,
-                                )));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Home()));
                   },
                   child: const Text("Next"),
                 )

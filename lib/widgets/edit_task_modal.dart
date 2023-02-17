@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:task_app/dao/task.dart';
+import 'package:task_app/data/database.dart';
 
 class EditTaskModal extends StatefulWidget {
-  const EditTaskModal(
-      {super.key,
-      required this.editTask,
-      required this.taskId,
-      required this.deleteTask});
+  const EditTaskModal({
+    super.key,
+    required this.taskId,
+  });
 
-  final void Function(String taskId, Task newTask) editTask;
-  final void Function(String taskId) deleteTask;
   final String taskId;
 
   @override
@@ -18,6 +15,14 @@ class EditTaskModal extends StatefulWidget {
 
 class _EditTaskModalState extends State<EditTaskModal> {
   final TextEditingController _controller = TextEditingController();
+  Database db = Database();
+
+  @override
+  void initState() {
+    TaskObject task = db.tasks.firstWhere((task) => task.id == widget.taskId);
+    _controller.text = task.title;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,7 @@ class _EditTaskModalState extends State<EditTaskModal> {
             Padding(
               padding: const EdgeInsets.only(top: 12),
               child: TextField(
+                  onChanged: (value) => setState(() {}),
                   controller: _controller,
                   autocorrect: false,
                   decoration: InputDecoration(
@@ -60,27 +66,31 @@ class _EditTaskModalState extends State<EditTaskModal> {
                   padding: const EdgeInsets.only(right: 12),
                   child: TextButton(
                       onPressed: () {
-                        widget.editTask(
-                            widget.taskId,
-                            Task(
-                                id: widget.taskId,
-                                title: _controller.text,
-                                done: false));
+                        if (_controller.text.isEmpty) {
+                          return;
+                        }
+                        db.editTask(
+                          widget.taskId,
+                          _controller.text,
+                          null,
+                        );
                         Navigator.pop(context);
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.deepPurple.shade400),
+                              (states) => _controller.text.isNotEmpty
+                                  ? Colors.deepPurple.shade400
+                                  : Colors.deepPurple.shade200),
                           overlayColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.deepPurple.shade300)),
+                              (states) => _controller.text.isNotEmpty
+                                  ? Colors.deepPurple.shade300
+                                  : Colors.deepPurple.shade200)),
                       child: const Text("Save",
                           style: TextStyle(color: Colors.white))),
                 ),
                 TextButton(
                     onPressed: () {
-                      widget.deleteTask(
-                        widget.taskId,
-                      );
+                      db.deleteTask(widget.taskId);
                       Navigator.pop(context);
                     },
                     style: ButtonStyle(

@@ -36,9 +36,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   modal_bottom_sheet: ^2.1.2
-  localstorage: ^4.0.0+1
   tailwind_colors: ^0.3.1
   google_fonts: ^4.0.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +52,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  build_runner: ^2.3.3
   flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
