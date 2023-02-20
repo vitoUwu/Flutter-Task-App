@@ -26,7 +26,7 @@ class _TaskListState extends State<TaskList> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "My Tasks",
+                    'My Tasks',
                     style: TextStyle(
                       color: TWTwoColors.gray.shade800,
                       fontWeight: FontWeight.bold,
@@ -46,10 +46,10 @@ class _TaskListState extends State<TaskList> {
                       ),
                       child: Text(
                         db.tasks.isEmpty
-                            ? "Empty"
+                            ? 'Empty'
                             : db.tasks.every((task) => task.done)
-                                ? "completed"
-                                : "${db.tasks.where((task) => task.done).length}/${db.tasks.length.toString()}",
+                                ? 'completed'
+                                : '${db.tasks.where((task) => task.done).length}/${db.tasks.length.toString()}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

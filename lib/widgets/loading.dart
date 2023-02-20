@@ -8,6 +8,8 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ColoredBox(
-        color: Colors.white, child: Center(child: CircularProgressIndicator()));
+      color: Colors.white,
+      child: Center(child: CircularProgressIndicator()),
+    );
   }
 }

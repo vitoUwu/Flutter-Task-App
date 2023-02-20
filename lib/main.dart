@@ -30,7 +30,8 @@ class _TaskAppState extends State<TaskApp> {
         ThemeData(primarySwatch: TWTwoColors.violet.asMaterialColor);
 
     return baseTheme.copyWith(
-        textTheme: GoogleFonts.interTextTheme(baseTheme.textTheme));
+      textTheme: GoogleFonts.interTextTheme(baseTheme.textTheme),
+    );
   }
 
   Database db = Database();

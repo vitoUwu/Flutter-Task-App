@@ -12,7 +12,7 @@ class EnterUsername extends StatefulWidget {
 
 class _EnterUsernameState extends State<EnterUsername> {
   final TextEditingController _controller = TextEditingController();
-  String _username = "";
+  String _username = '';
 
   _setUsername(String username) {
     setState(() {
@@ -31,17 +31,20 @@ class _EnterUsernameState extends State<EnterUsername> {
             child: Column(
               children: [
                 Text(
-                  "Hey! How should I call you?",
+                  'Hey! How should I call you?',
                   style: TextStyle(
-                      color: TWTwoColors.gray.shade800,
-                      decoration: TextDecoration.none,
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold),
+                    color: TWTwoColors.gray.shade800,
+                    decoration: TextDecoration.none,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 42),
                   child: CircleAvatar(
-                      backgroundColor: TWTwoColors.gray.shade800, radius: 60),
+                    backgroundColor: TWTwoColors.gray.shade800,
+                    radius: 60,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
@@ -52,44 +55,51 @@ class _EnterUsernameState extends State<EnterUsername> {
                     maxLength: 12,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 24,
-                        color: TWTwoColors.gray.shade800,
-                        decoration: TextDecoration.none),
+                      fontSize: 24,
+                      color: TWTwoColors.gray.shade800,
+                      decoration: TextDecoration.none,
+                    ),
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "username",
-                        helperStyle: const TextStyle(color: Colors.white),
-                        prefixIcon: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.edit,
-                          color: TWTwoColors.gray.shade800,
-                        )),
+                      border: InputBorder.none,
+                      hintText: 'username',
+                      helperStyle: const TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      suffixIcon: Icon(
+                        Icons.edit,
+                        color: TWTwoColors.gray.shade800,
+                      ),
+                    ),
                   ),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
-                      enableFeedback: _username.isNotEmpty,
-                      minimumSize: const MaterialStatePropertyAll(
-                        Size.fromHeight(40),
-                      ),
-                      backgroundColor: MaterialStatePropertyAll(
-                          _username.isEmpty
-                              ? TWTwoColors.violet.shade300
-                              : TWTwoColors.violet.shade500),
-                      overlayColor: _username.isEmpty
-                          ? MaterialStatePropertyAll(
-                              TWTwoColors.violet.shade300)
-                          : null),
+                    enableFeedback: _username.isNotEmpty,
+                    minimumSize: const MaterialStatePropertyAll(
+                      Size.fromHeight(40),
+                    ),
+                    backgroundColor: MaterialStatePropertyAll(
+                      _username.isEmpty
+                          ? TWTwoColors.violet.shade300
+                          : TWTwoColors.violet.shade500,
+                    ),
+                    overlayColor: _username.isEmpty
+                        ? MaterialStatePropertyAll(
+                            TWTwoColors.violet.shade300,
+                          )
+                        : null,
+                  ),
                   onPressed: () {
                     Database().setUsername(_controller.text);
                     _controller.clear();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Home()),
+                    );
                   },
-                  child: const Text("Next"),
+                  child: const Text('Next'),
                 )
               ],
             ),

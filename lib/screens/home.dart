@@ -32,15 +32,19 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         CircleAvatar(
-                            backgroundColor: TWTwoColors.gray.shade800,
-                            radius: 40),
+                          backgroundColor: TWTwoColors.gray.shade800,
+                          radius: 40,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 12),
-                          child: Text(db.getUsername() as String,
-                              style: TextStyle(
-                                  color: TWTwoColors.gray.shade800,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
+                          child: Text(
+                            db.getUsername() as String,
+                            style: TextStyle(
+                              color: TWTwoColors.gray.shade800,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -54,7 +58,9 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
-            context: context, builder: (context) => const CreateTaskModal()),
+          context: context,
+          builder: (context) => const CreateTaskModal(),
+        ),
         tooltip: 'Add new task',
         child: const Icon(Icons.add),
       ),
