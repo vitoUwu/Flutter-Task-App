@@ -32,6 +32,8 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         CircleAvatar(
+                          backgroundImage:
+                              const ExactAssetImage('lib/images/icon.png'),
                           backgroundColor: TWTwoColors.gray.shade800,
                           radius: 40,
                         ),

@@ -42,6 +42,8 @@ class _EnterUsernameState extends State<EnterUsername> {
                 Padding(
                   padding: const EdgeInsets.only(top: 42),
                   child: CircleAvatar(
+                    backgroundImage:
+                        const ExactAssetImage('lib/images/icon.png'),
                     backgroundColor: TWTwoColors.gray.shade800,
                     radius: 60,
                   ),
